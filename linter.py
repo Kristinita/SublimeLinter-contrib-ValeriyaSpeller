@@ -36,19 +36,22 @@ class ValeriyaSpeller(NodeLinter):
     """Provides an interface to ValeriyaSpeller."""
 
     syntax = ('*')
+    # yaspeller command
     cmd = 'yaspeller --check-yo --find-repeat-words --ignore-digits --ignore-latin --ignore-roman-numerals --ignore-uppercase --ignore-urls'
     npm_name = 'yaspeller'
+    # Highlight as warnings, not as errors
     default_type = highlight.WARNING
     executable = None
     error_stream = util.STREAM_BOTH
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
+    # yaspeller max version
     version_requirement = '>= 3.1.0'
     regex = r'''(?xi)
         ((^(?P<error_stream>.+):\s\d+$\r?\n)?)
-        (^\d+\.\s.+\((?P<line>\d+):(?P<col>\d+),(
+        (^\d+\.\s(?P<message>.+)\s\((?P<line>\d+):(?P<col>\d+)((,(
         (\scount:\s\d+,)?)((\sen:\s.+,)?)((\ssuggest:\s)?)
-        ((?P<message>.+)?)\)$\r?\n)
+        ((.+)?))?)\)$\r?\n)
     '''
     multiline = True
     selectors = {
